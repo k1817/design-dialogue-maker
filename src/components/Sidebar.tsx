@@ -1,5 +1,6 @@
-import { Plus, Search, FileText, Folder, Clock, Bot } from 'lucide-react';
+import { Plus, Search, FileText, Folder, Clock, Bot, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ThemeSelector from './ThemeSelector';
 
 const Sidebar = () => {
   const recentSearches = [
@@ -13,9 +14,21 @@ const Sidebar = () => {
     <div className="w-80 h-screen bg-gradient-sidebar border-r border-sidebar-border flex flex-col">
       {/* Header */}
       <div className="p-6 border-b border-sidebar-border">
-        <div className="flex items-center gap-3 mb-6">
-          <Bot className="w-8 h-8 text-primary" />
-          <span className="text-2xl font-bold text-sidebar-foreground">Aivory</span>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <Bot className="w-8 h-8 text-primary" />
+            <span className="text-2xl font-bold text-sidebar-foreground">Aivory</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <ThemeSelector />
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-9 w-9 p-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-smooth"
+            >
+              <Settings className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
         
         <Button 

@@ -3,6 +3,7 @@ import { Database, Settings, BarChart } from 'lucide-react';
 import FeatureCard from './FeatureCard';
 import FileUpload from './FileUpload';
 import ChatInput from './ChatInput';
+import ThemePreview from './ThemePreview';
 
 const MainContent = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -44,7 +45,10 @@ const MainContent = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen bg-background">
+    <div className="flex-1 flex flex-col min-h-screen bg-background relative">
+      {/* Theme Preview */}
+      <ThemePreview />
+      
       {/* Main Content Area */}
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-6xl mx-auto px-8 py-12">
