@@ -2,22 +2,32 @@ import { useState } from 'react';
 import { Send, Paperclip, Smile } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import VoiceInput from './VoiceInput';
+import LanguageSelector from './LanguageSelector';
 
 interface ChatInputProps {
-  onSendMessage: (message: string) => void;
+  onSendMessage: (message: string, files: File[], inputLanguage: string, outputLanguage: string) => void;
   onAttachFile: () => void;
   disabled?: boolean;
+  files: File[];
 }
 
-const ChatInput = ({ onSendMessage, onAttachFile, disabled = false }: ChatInputProps) => {
+const ChatInput = ({ onSendMessage, onAttachFile, disabled = false, files }: ChatInputProps) => {
   const [message, setMessage] = useState('');
+  const [inputLanguage, setInputLanguage] = useState('en-US');
+  const [outputLanguage, setOutputLanguage] = useState('en-US');
+  const [isListening, setIsListening] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim() && !disabled) {
-      onSendMessage(message.trim());
+      onSendMessage(message.trim(), files, inputLanguage, outputLanguage);
       setMessage('');
     }
+  };
+
+  const handleVoiceTranscript = (transcript: string) => {
+    setMessage(prev => prev + (prev ? ' ' : '') + transcript);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -42,14 +52,20 @@ const ChatInput = ({ onSendMessage, onAttachFile, disabled = false }: ChatInputP
               <Paperclip className="w-4 h-4" />
             </Button>
             
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="mt-1 h-8 w-8 p-0 hover:bg-accent hover:text-accent-foreground"
-            >
-              <Smile className="w-4 h-4" />
-            </Button>
+            <VoiceInput
+              onTranscript={handleVoiceTranscript}
+              onLanguageChange={setInputLanguage}
+              selectedLanguage={inputLanguage}
+              isListening={isListening}
+              setIsListening={setIsListening}
+            />
+            
+            <LanguageSelector
+              selectedLanguage={inputLanguage}
+              onLanguageChange={setInputLanguage}
+              outputLanguage={outputLanguage}
+              onOutputLanguageChange={setOutputLanguage}
+            />
             
             <Textarea
               value={message}
@@ -70,9 +86,16 @@ const ChatInput = ({ onSendMessage, onAttachFile, disabled = false }: ChatInputP
           </div>
         </div>
         
-        <p className="text-xs text-muted-foreground text-center mt-3">
-          Press Enter to send, Shift + Enter for new line
-        </p>
+        <div className="flex justify-between items-center mt-3">
+          <p className="text-xs text-muted-foreground">
+            Press Enter to send, Shift + Enter for new line
+          </p>
+          {files.length > 0 && (
+            <p className="text-xs text-primary">
+              {files.length} file(s) attached
+            </p>
+          )}
+        </div>
       </form>
     </div>
   );

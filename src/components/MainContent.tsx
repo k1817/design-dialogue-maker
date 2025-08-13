@@ -34,10 +34,37 @@ const MainContent = () => {
     setFiles(prev => [...prev, ...newFiles]);
   };
 
-  const handleSendMessage = (message: string) => {
+  const handleSendMessage = (message: string, attachedFiles: File[], inputLanguage: string, outputLanguage: string) => {
     console.log('Sending message:', message);
-    console.log('With files:', files);
-    // Here you would typically send the message and files to your backend
+    console.log('With files:', attachedFiles);
+    console.log('Input language:', inputLanguage);
+    console.log('Output language:', outputLanguage);
+    
+    // Simulate AI response with text-to-speech
+    setTimeout(() => {
+      const responses = {
+        'en-US': 'I received your message and I\'m ready to help you with your request.',
+        'es-ES': 'Recibí tu mensaje y estoy listo para ayudarte con tu solicitud.',
+        'fr-FR': 'J\'ai reçu votre message et je suis prêt à vous aider avec votre demande.',
+        'de-DE': 'Ich habe Ihre Nachricht erhalten und bin bereit, Ihnen bei Ihrer Anfrage zu helfen.',
+        'it-IT': 'Ho ricevuto il tuo messaggio e sono pronto ad aiutarti con la tua richiesta.',
+        'pt-BR': 'Recebi sua mensagem e estou pronto para ajudá-lo com sua solicitação.',
+        'ja-JP': 'メッセージを受信しました。ご要望にお応えする準備ができています。',
+        'zh-CN': '我收到了您的消息，准备好帮助您处理您的请求。'
+      };
+      
+      const responseText = responses[outputLanguage as keyof typeof responses] || responses['en-US'];
+      
+      // Text-to-speech for the response
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(responseText);
+        utterance.lang = outputLanguage;
+        speechSynthesis.speak(utterance);
+      }
+    }, 1000);
+    
+    // Clear files after sending
+    setFiles([]);
   };
 
   const handleAttachFile = () => {
@@ -95,6 +122,7 @@ const MainContent = () => {
       <ChatInput
         onSendMessage={handleSendMessage}
         onAttachFile={handleAttachFile}
+        files={files}
       />
     </div>
   );
