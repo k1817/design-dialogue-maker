@@ -6,16 +6,14 @@ import { useTheme, colorThemes } from '@/contexts/ThemeContext';
 const ThemeSelector = () => {
   const { currentTheme, setTheme } = useTheme();
 
-  
   const themeColors = [
-  { key: 'emerald',  color: 'bg-gradient-to-r from-green-400 to-emerald-600', name: 'Emerald' },
-  { key: 'crimson',  color: 'bg-gradient-to-r from-red-400 to-red-600',       name: 'Crimson' },
-  { key: 'sapphire', color: 'bg-gradient-to-r from-blue-400 to-blue-600',     name: 'Sapphire' },
-  { key: 'amethyst', color: 'bg-gradient-to-r from-purple-400 to-purple-600', name: 'Amethyst' },
-  { key: 'amber',    color: 'bg-gradient-to-r from-yellow-400 to-yellow-600', name: 'Amber' },
-  { key: 'rose',     color: 'bg-gradient-to-r from-pink-400 to-rose-600',     name: 'Rose' }
-];
-
+    { key: 'emerald', color: 'bg-emerald-500', name: 'Emerald' },
+    { key: 'crimson', color: 'bg-red-500', name: 'Crimson' },
+    { key: 'sapphire', color: 'bg-blue-500', name: 'Sapphire' },
+    { key: 'amethyst', color: 'bg-purple-500', name: 'Amethyst' },
+    { key: 'amber', color: 'bg-yellow-500', name: 'Amber' },
+    { key: 'rose', color: 'bg-rose-500', name: 'Rose' }
+  ];
 
   return (
     <Popover>
